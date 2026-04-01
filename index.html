@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Tumaini ATM | Secure Banking System</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Swiper.js Carousel Library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 20% 30%, #0b2b44, #051a2c);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone-mock {
+            max-width: 480px;
+            width: 100%;
+            background: #f0f9ff;
+            border-radius: 48px;
+            box-shadow: 0 30px 45px rgba(0, 0, 0, 0.4), 0 0 0 8px #e9f2f9, 0 0 0 12px #1e3b4f;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            min-height: 700px;
+            position: relative;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav-header {
+            background: #0b2b44;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 14px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+
+        .back-btn:active {
+            transform: scale(0.95);
+            background: rgba(255,255,255,0.3);
+        }
+
+        .page-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .login-page-container {
+            background: linear-gradient(145deg, #eef7ff, #e0edf5);
+            min-height: 700px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 30px 24px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 48px;
+            padding: 32px 24px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .atm-logo-icon {
+            font-size: 3.5rem;
+            color: #0f6b96;
+            margin-bottom: 10px;
+        }
+
+        .logo-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0b2b44, #1f6390);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo-subtitle {
+            color: #5c8dad;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .tab-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            background: #eef2f7;
+            border-radius: 60px;
+            padding: 5px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 50px;
+            border: none;
+            background: transparent;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(115deg, #1976a5, #0f5277);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #0b3b4f;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 34px;
+            border: 1.5px solid #cde3ef;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #1f6390;
+            box-shadow: 0 0 0 3px rgba(31, 99, 144, 0.2);
+        }
+
+        .role-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 40px;
+            border: 2px solid #cde3ef;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .role-btn.active {
+            background: #0f6b96;
+            color: white;
+            border-color: #0f6b96;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(115deg, #1976a5, #0f5277);
+            color: white;
+            border: none;
+            border-radius: 44px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.1s;
+        }
+
+        .action-btn:active {
+            transform: scale(0.97);
+        }
+
+        .atm-container {
+            background: linear-gradient(145deg, #eef7ff, #e0edf5);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .balance-card {
+            background: linear-gradient(120deg, #ffffff, #f3fcff);
+            border-radius: 44px;
+            padding: 18px 20px;
+            box-shadow: 0 8px 20px rgba(0, 32, 64, 0.12);
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+
+        .balance-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #1e5a7a;
+        }
+
+        .balance-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #0b3b4f;
+        }
+
+        .currency {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #2c7da0;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .atm-btn {
+            background: white;
+            border: none;
+            padding: 16px;
+            border-radius: 34px;
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+
+        .atm-btn i {
+            font-size: 1.9rem;
+            color: #1f6390;
+        }
+
+        .atm-btn:active {
+            transform: scale(0.96);
+            background: #e2f0ff;
+        }
+
+        .account-btn {
+            background: linear-gradient(115deg, #1976a5, #0f5277);
+            color: white;
+        }
+
+        .account-btn i {
+            color: white;
+        }
+
+        .features-carousel {
+            background: #cbe5f0;
+            border-radius: 32px;
+            padding: 12px;
+        }
+
+        .admin-container {
+            background: linear-gradient(145deg, #eef7ff, #e0edf5);
+            padding: 20px;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .admin-section {
+            background: white;
+            border-radius: 32px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .admin-section h3 {
+            color: #0b3b4f;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: #f0f9ff;
+            padding: 12px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .transaction-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .transaction-item {
+            padding: 10px;
+            border-bottom: 1px solid #e0edf5;
+            font-size: 0.85rem;
+        }
+
+        .inventory-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: #f9f9f9;
+            margin: 8px 0;
+            border-radius: 16px;
+        }
+
+        .admin-btn {
+            background: #0f6b96;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .admin-btn-small {
+            background: #e2e8f0;
+            color: #0b3b4f;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .user-card {
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .atm-network-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .atm-card {
+            background: white;
+            border-radius: 28px;
+            padding: 16px;
+            border-left: 8px solid;
+            transition: 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .atm-card.online {
+            border-left-color: #2ecc71;
+        }
+
+        .atm-card.offline {
+            border-left-color: #e74c3c;
+            opacity: 0.7;
+        }
+
+        .atm-card.error {
+            border-left-color: #f39c12;
+            background: #fff9e6;
+        }
+
+        .atm-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .atm-name {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #0b3b4f;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .status-online {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .status-offline {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .status-error {
+            background: #f39c12;
+            color: white;
+        }
+
+        .atm-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #2c5a74;
+        }
+
+        .cash-level {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e0edf5;
+        }
+
+        .cash-bar {
+            height: 8px;
+            background: #e0edf5;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .cash-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+
+        .cash-fill.low {
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+        }
+
+        .cash-fill.critical {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+
+        .action-buttons {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .network-btn {
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: none;
+            font-size: 0.7rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .network-btn.refill {
+            background: #0f6b96;
+            color: white;
+        }
+
+        .network-btn.fix {
+            background: #f39c12;
+            color: white;
+        }
+
+        .admin-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .admin-nav-btn {
+            flex: 1;
+            padding: 12px;
+            background: #e2e8f0;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .admin-nav-btn.active {
+            background: #0f6b96;
+            color: white;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 20, 33, 0.8);
+            backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-card {
+            background: white;
+            width: 85%;
+            max-width: 320px;
+            border-radius: 48px;
+            padding: 28px;
+            text-align: center;
+        }
+
+        .modal-card input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 30px;
+            border: 1px solid #ccc;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .confirm-btn {
+            flex: 1;
+            padding: 12px;
+            background: #0f6b96;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            flex: 1;
+            padding: 12px;
+            background: #e2e8f0;
+            color: #1f4662;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .message-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0b2b44;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 60px;
+            opacity: 0;
+            transition: 0.2s;
+            z-index: 1100;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .message-toast.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 450px) {
+            .message-toast { white-space: normal; max-width: 85%; text-align: center; }
+        }
+
+        .mini-text {
+            font-size: 0.7rem;
+            color: #1c6f96;
+            text-align: center;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="phone-mock">
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="page active">
+        <div class="login-page-container">
+            <div class="login-card">
+                <div class="logo-section">
+                    <div class="atm-logo-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <div class="logo-title">TUMAINI ATM</div>
+                    <div class="logo-subtitle">Secure Banking at Your Fingertips</div>
+                </div>
+                
+                <div class="tab-container">
+                    <button class="tab-btn active" data-tab="login">🔐 LOGIN</button>
+                    <button class="tab-btn" data-tab="signup">📝 SIGN UP</button>
+                </div>
+
+                <div id="loginForm" class="form-section">
+                    <div class="role-selector">
+                        <button class="role-btn active" data-role="user">👤 USER</button>
+                        <button class="role-btn" data-role="admin">👑 ADMIN</button>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Username</label>
+                        <input type="text" id="loginUsername" placeholder="Enter your username">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password">
+                    </div>
+                    <button class="action-btn" id="signInBtn"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+                </div>
+
+                <div id="signupForm" class="form-section" style="display: none;">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="signupFullName" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-at"></i> Username</label>
+                        <input type="text" id="signupUsername" placeholder="Choose a username">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email (Optional)</label>
+                        <input type="email" id="signupEmail" placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="signupPassword" placeholder="Create a password (min 4 chars)">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Confirm Password</label>
+                        <input type="password" id="signupConfirmPassword" placeholder="Confirm your password">
+                    </div>
+                    <button class="action-btn" id="signUpBtn"><i class="fas fa-user-plus"></i> Create Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ATM USER PAGE -->
+    <div id="atmPage" class="page">
+        <div class="nav-header">
+            <button class="back-btn" id="userBackBtn"><i class="fas fa-arrow-left"></i> Back</button>
+            <span class="page-title"><i class="fas fa-credit-card"></i> TUMAINI ATM</span>
+            <button class="back-btn" id="userLogoutBtn" style="background: rgba(255,255,255,0.2);">Logout</button>
+        </div>
+        <div class="atm-container">
+            <div class="balance-card">
+                <div class="balance-label"><i class="fas fa-wallet"></i> AVAILABLE BALANCE</div>
+                <div class="balance-amount">
+                    <span class="currency">KES</span> <span id="balanceAmount">0.00</span>
+                </div>
+                <div class="mini-text">✔️ Ready for transactions</div>
+            </div>
+            <div class="action-grid">
+                <button class="atm-btn" id="depositBtn"><i class="fas fa-plus-circle"></i> DEPOSIT</button>
+                <button class="atm-btn" id="withdrawBtn"><i class="fas fa-minus-circle"></i> WITHDRAW</button>
+                <button class="atm-btn" id="checkBalanceBtn"><i class="fas fa-chart-line"></i> CHECK BALANCE</button>
+                <button class="atm-btn account-btn" id="myAccountBtn"><i class="fas fa-user-circle"></i> MY ACCOUNT</button>
+            </div>
+            <div class="features-carousel">
+                <div class="swiper userSwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><div style="text-align: center;">💳 Quick Withdrawal: 1000, 2000, 5000</div></div>
+                        <div class="swiper-slide"><div style="text-align: center;">💰 Deposit Cash Any Time</div></div>
+                        <div class="swiper-slide"><div style="text-align: center;">📱 Cardless Withdrawal Ready</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD PAGE -->
+    <div id="adminPage" class="page">
+        <div class="nav-header">
+            <button class="back-btn" id="adminBackBtn"><i class="fas fa-arrow-left"></i> Back</button>
+            <span class="page-title"><i class="fas fa-chalkboard-user"></i> ADMIN DASHBOARD</span>
+            <button class="back-btn" id="adminLogoutBtn">Logout</button>
+        </div>
+        <div class="admin-container">
+            <div class="admin-nav">
+                <button class="admin-nav-btn active" data-admin-view="main">📊 Main Dashboard</button>
+                <button class="admin-nav-btn" data-admin-view="network">🌐 ATM Network</button>
+            </div>
+            
+            <div id="mainAdminView">
+                <div class="admin-section">
+                    <h3><i class="fas fa-users"></i> User Management</h3>
+                    <div id="userList"></div>
+                    <button class="admin-btn" id="addUserBtn" style="width: 100%; margin-top: 10px;">+ Add New User</button>
+                </div>
+                <div class="admin-section">
+                    <h3><i class="fas fa-money-bill-wave"></i> Cash Management</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">💵 Total Cash in ATM: <strong id="totalCash">KES 0</strong></div>
+                        <div class="stat-card">🏧 Cassette 1 (1000s): <span id="cassette1">0</span> notes</div>
+                        <div class="stat-card">💴 Cassette 2 (500s): <span id="cassette2">0</span> notes</div>
+                        <div class="stat-card">💰 Cassette 3 (200s): <span id="cassette3">0</span> notes</div>
+                    </div>
+                    <button class="admin-btn admin-btn-small" id="refillCashBtn"><i class="fas fa-sync-alt"></i> Refill Cash</button>
+                </div>
+                <div class="admin-section">
+                    <h3><i class="fas fa-list-alt"></i> Transaction History</h3>
+                    <div id="transactionList" class="transaction-list"></div>
+                    <button class="admin-btn admin-btn-small" id="clearTransactionsBtn" style="margin-top: 10px;">Clear History</button>
+                </div>
+                <div class="admin-section">
+                    <h3><i class="fas fa-tools"></i> ATM Inventory & Maintenance</h3>
+                    <div class="inventory-item">
+                        <span>📄 Receipt Paper:</span>
+                        <span><span id="receiptPaper">85</span>% <button class="admin-btn-small" id="refillPaper">Refill</button></span>
+                    </div>
+                    <div class="inventory-item">
+                        <span>🖨️ Printer Status:</span>
+                        <span id="printerStatus">Operational</span>
+                    </div>
+                    <div class="inventory-item">
+                        <span>🔋 System Health:</span>
+                        <span id="systemHealth">98%</span>
+                    </div>
+                    <button class="admin-btn" id="runMaintenanceBtn" style="width: 100%; margin-top: 10px;"><i class="fas fa-wrench"></i> Run System Maintenance</button>
+                    <button class="admin-btn admin-btn-small" id="resetATMData" style="margin-top: 8px;">Reset All User Balances</button>
+                </div>
+            </div>
+            
+            <div id="networkAdminView" style="display: none;">
+                <div class="admin-section">
+                    <h3><i class="fas fa-globe"></i> ATM Network Monitoring</h3>
+                    <div id="atmNetworkList" class="atm-network-grid"></div>
+                    <button class="admin-btn" id="addNewAtmBtn" style="width: 100%; margin-top: 15px;"><i class="fas fa-plus-circle"></i> Add New ATM Terminal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODALS -->
+<div id="transactionModal" class="modal-overlay">
+    <div class="modal-card">
+        <h3 id="modalTitle">Transaction</h3>
+        <input type="number" id="modalAmount" placeholder="Enter amount" step="0.01">
+        <div class="modal-buttons">
+            <button class="confirm-btn" id="modalConfirm">Confirm</button>
+            <button class="cancel-btn" id="modalCancel">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="accountInfoModal" class="modal-overlay">
+    <div class="modal-card">
+        <h3>👤 My Account</h3>
+        <div id="accountDetails" style="text-align:left; margin:15px 0;"></div>
+        <button class="confirm-btn" id="closeAccountModal">Close</button>
+    </div>
+</div>
+
+<div id="toastMsg" class="message-toast"></div>
+
+<script>
+    const API_BASE = 'http://localhost:3000/api';
+    let currentUser = null;
+
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById('toastMsg');
+        toast.innerText = msg;
+        toast.style.background = isError ? '#9e2d2f' : '#0b3b4f';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    async function apiCall(endpoint, options = {}) {
+        try {
+            const response = await fetch(`${API_BASE}${endpoint}`, {
+                ...options,
+                headers: { 'Content-Type': 'application/json', ...options.headers }
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || 'Request failed');
+            return data;
+        } catch (error) {
+            showToast(error.message, true);
+            throw error;
+        }
+    }
+
+    function updateBalanceUI() {
+        if (currentUser) {
+            document.getElementById('balanceAmount').innerText = currentUser.balance.toLocaleString('en-KE', { minimumFractionDigits: 2 });
+        }
+    }
+
+    async function addTransaction(type, amount) {
+        await apiCall('/transactions', {
+            method: 'POST',
+            body: JSON.stringify({
+                userId: currentUser.id,
+                username: currentUser.username,
+                type: type,
+                amount: amount
+            })
+        });
+    }
+
+    async function handleDeposit(amount) {
+        if (amount <= 0) { showToast("Invalid amount", true); return false; }
+        currentUser.balance += amount;
+        await apiCall(`/users/${currentUser.id}/balance`, {
+            method: 'PUT',
+            body: JSON.stringify({ balance: currentUser.balance })
+        });
+        await addTransaction('Deposit', amount);
+        updateBalanceUI();
+        showToast(`✅ Deposited KES ${amount.toLocaleString()}`);
+        return true;
+    }
+
+    async function handleWithdraw(amount) {
+        if (amount <= 0) { showToast("Invalid amount", true); return false; }
+        if (amount > currentUser.balance) { showToast("Insufficient funds", true); return false; }
+        if (amount > 40000) { showToast("Max withdrawal KES 40,000", true); return false; }
+        if (amount % 100 !== 0) { showToast("Amount must be in multiples of 100", true); return false; }
+        
+        let required1000 = Math.floor(amount / 1000);
+        let remaining = amount % 1000;
+        let required500 = Math.floor(remaining / 500);
+        remaining = remaining % 500;
+        let required200 = Math.floor(remaining / 200);
+        
+        const inventory = await apiCall('/cash-inventory');
+        const notes1000 = inventory.find(i => i.denomination === 1000)?.quantity || 0;
+        const notes500 = inventory.find(i => i.denomination === 500)?.quantity || 0;
+        const notes200 = inventory.find(i => i.denomination === 200)?.quantity || 0;
+        
+        if (required1000 > notes1000 || required500 > notes500 || required200 > notes200) {
+            showToast("ATM insufficient cash denomination", true);
+            return false;
+        }
+        
+        await apiCall('/cash-inventory/withdraw', {
+            method: 'PUT',
+            body: JSON.stringify({ notes1000: required1000, notes500: required500, notes200: required200 })
+        });
+        
+        currentUser.balance -= amount;
+        await apiCall(`/users/${currentUser.id}/balance`, {
+            method: 'PUT',
+            body: JSON.stringify({ balance: currentUser.balance })
+        });
+        await addTransaction('Withdrawal', amount);
+        updateBalanceUI();
+        showToast(`💵 Withdrew KES ${amount.toLocaleString()}. Please collect cash.`);
+        return true;
+    }
+
+    async function renderAdminDashboard() {
+        const users = await apiCall('/users');
+        const userListDiv = document.getElementById('userList');
+        userListDiv.innerHTML = users.map(user => `
+            <div class="user-card">
+                <div><strong>${user.full_name}</strong><br><small>@${user.username}</small><br>Balance: KES ${user.balance.toLocaleString()}</div>
+                <div>
+                    <button class="admin-btn-small" onclick="editUser(${user.id}, ${user.balance})">Edit</button>
+                    <button class="admin-btn-small" onclick="deleteUser(${user.id})" style="background:#ff6b6b;">Del</button>
+                </div>
+            </div>
+        `).join('');
+        
+        const inventory = await apiCall('/cash-inventory');
+        const notes1000 = inventory.find(i => i.denomination === 1000)?.quantity || 0;
+        const notes500 = inventory.find(i => i.denomination === 500)?.quantity || 0;
+        const notes200 = inventory.find(i => i.denomination === 200)?.quantity || 0;
+        const totalCash = (notes1000 * 1000) + (notes500 * 500) + (notes200 * 200);
+        
+        document.getElementById('totalCash').innerText = `KES ${totalCash.toLocaleString()}`;
+        document.getElementById('cassette1').innerText = notes1000;
+        document.getElementById('cassette2').innerText = notes500;
+        document.getElementById('cassette3').innerText = notes200;
+        
+        const transactions = await apiCall('/transactions');
+        const transList = document.getElementById('transactionList');
+        transList.innerHTML = transactions.slice(0, 20).map(t => `
+            <div class="transaction-item">
+                <strong>${t.username}</strong> - ${t.type} KES ${t.amount.toLocaleString()}<br>
+                <small>${new Date(t.created_at).toLocaleString()} | ${t.status}</small>
+            </div>
+        `).join('');
+    }
+
+    async function renderAtmNetwork() {
+        const atms = await apiCall('/atm-network');
+        const container = document.getElementById('atmNetworkList');
+        container.innerHTML = atms.map(atm => {
+            const cashPercent = (atm.cash_level / 1000000) * 100;
+            let cashFillClass = '';
+            let cashStatusText = '';
+            if (atm.cash_level < 100000) {
+                cashFillClass = 'critical';
+                cashStatusText = '⚠️ CRITICAL';
+            } else if (atm.cash_level < 300000) {
+                cashFillClass = 'low';
+                cashStatusText = '⚠️ LOW';
+            } else {
+                cashStatusText = '✅ Adequate';
+            }
+            
+            return `
+                <div class="atm-card ${atm.status}">
+                    <div class="atm-header">
+                        <span class="atm-name"><i class="fas fa-atm"></i> ${atm.name}</span>
+                        <span class="status-badge status-${atm.status}">${atm.status.toUpperCase()}</span>
+                    </div>
+                    <div class="atm-details">
+                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> ${atm.location}</div>
+                        <div class="detail-item"><i class="fas fa-calendar"></i> Last: ${atm.last_maintenance}</div>
+                    </div>
+                    <div class="cash-level">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span><i class="fas fa-money-bill-wave"></i> Cash Level: KES ${atm.cash_level.toLocaleString()}</span>
+                            <span>${cashStatusText}</span>
+                        </div>
+                        <div class="cash-bar">
+                            <div class="cash-fill ${cashFillClass}" style="width: ${Math.min(cashPercent, 100)}%"></div>
+                        </div>
+                    </div>
+                    ${atm.error_message ? `<div style="margin-top: 8px; padding: 6px; background: #fff3e0; border-radius: 12px; font-size: 0.75rem; color: #e67e22;"><i class="fas fa-exclamation-triangle"></i> Error: ${atm.error_message}</div>` : ''}
+                    <div class="action-buttons">
+                        <button class="network-btn refill" onclick="refillAtmCash(${atm.id})"><i class="fas fa-plus-circle"></i> Refill Cash</button>
+                        ${atm.status !== 'online' ? `<button class="network-btn fix" onclick="fixAtmIssue(${atm.id})"><i class="fas fa-tools"></i> Fix Issue</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    window.editUser = async function(userId, currentBalance) {
+        const newBalance = prompt("Enter new balance:", currentBalance);
+        if (newBalance && !isNaN(parseFloat(newBalance))) {
+            await apiCall(`/users/${userId}/balance`, {
+                method: 'PUT',
+                body: JSON.stringify({ balance: parseFloat(newBalance) })
+            });
+            renderAdminDashboard();
+            showToast("User balance updated!");
+        }
+    };
+
+    window.deleteUser = async function(userId) {
+        if (confirm("Are you sure you want to delete this user?")) {
+            await apiCall(`/users/${userId}`, { method: 'DELETE' });
+            renderAdminDashboard();
+            showToast("User deleted successfully");
+        }
+    };
+
+    window.refillAtmCash = async function(atmId) {
+        const amount = prompt("Enter refill amount (KES):", "500000");
+        if (amount && !isNaN(parseFloat(amount))) {
+            await apiCall(`/atm-network/${atmId}/refill`, {
+                method: 'PUT',
+                body: JSON.stringify({ amount: parseFloat(amount) })
+            });
+            renderAtmNetwork();
+            showToast(`Refilled ATM with KES ${parseFloat(amount).toLocaleString()}`);
+        }
+    };
+
+    window.fixAtmIssue = async function(atmId) {
+        await apiCall(`/atm-network/${atmId}/fix`, { method: 'PUT' });
+        renderAtmNetwork();
+        showToast("ATM issue fixed and back online!");
+    };
+
+    function showPage(pageName) {
+        document.getElementById('loginPage').classList.remove('active');
+        document.getElementById('atmPage').classList.remove('active');
+        document.getElementById('adminPage').classList.remove('active');
+        document.getElementById(pageName).classList.add('active');
+        if (pageName === 'adminPage') {
+            renderAdminDashboard();
+            renderAtmNetwork();
+        }
+    }
+
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const tab = btn.getAttribute('data-tab');
+            if (tab === 'login') {
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('signupForm').style.display = 'none';
+            } else {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('signupForm').style.display = 'block';
+            }
+        });
+    });
+
+    // Role selector
+    document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+
+    // Admin View Toggle
+    document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.admin-nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const view = btn.getAttribute('data-admin-view');
+            if (view === 'main') {
+                document.getElementById('mainAdminView').style.display = 'block';
+                document.getElementById('networkAdminView').style.display = 'none';
+                renderAdminDashboard();
+            } else {
+                document.getElementById('mainAdminView').style.display = 'none';
+                document.getElementById('networkAdminView').style.display = 'block';
+                renderAtmNetwork();
+            }
+        });
+    });
+
+    // Sign In
+    document.getElementById('signInBtn').addEventListener('click', async () => {
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        const roleBtn = document.querySelector('.role-btn.active');
+        const role = roleBtn.getAttribute('data-role');
+        
+        if (!username || !password) {
+            showToast("Please enter username and password", true);
+            return;
+        }
+        
+        try {
+            const data = await apiCall('/login', {
+                method: 'POST',
+                body: JSON.stringify({ username, password, role })
+            });
+            currentUser = data.user;
+            if (role === "admin") {
+                showPage('adminPage');
+                showToast("Welcome Admin!");
+            } else {
+                showPage('atmPage');
+                updateBalanceUI();
+                showToast(`Welcome ${currentUser.fullName}!`);
+            }
+        } catch (error) {
+            // Error already shown in apiCall
+        }
+    });
+
+    // Sign Up
+    document.getElementById('signUpBtn').addEventListener('click', async () => {
+        const fullName = document.getElementById('signupFullName').value.trim();
+        const username = document.getElementById('signupUsername').value.trim();
+        const email = document.getElementById('signupEmail').value.trim();
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('signupConfirmPassword').value;
+        
+        if (!fullName || !username || !password) {
+            showToast("Please fill all required fields", true);
+            return;
+        }
+        if (password !== confirmPassword) {
+            showToast("Passwords do not match", true);
+            return;
+        }
+        if (password.length < 4) {
+            showToast("Password must be at least 4 characters", true);
+            return;
+        }
+        
+        try {
+            await apiCall('/signup', {
+                method: 'POST',
+                body: JSON.stringify({ fullName, username, email, password })
+            });
+            showToast("Account created successfully! Please login.");
+            document.querySelector('.tab-btn[data-tab="login"]').click();
+            document.getElementById('signupFullName').value = '';
+            document.getElementById('signupUsername').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupPassword').value = '';
+            document.getElementById('signupConfirmPassword').value = '';
+        } catch (error) {
+            // Error already shown
+        }
+    });
+
+    // ATM Buttons
+    document.getElementById('depositBtn')?.addEventListener('click', () => {
+        const amount = prompt("Enter deposit amount (KES):");
+        if (amount) handleDeposit(parseFloat(amount));
+    });
+    document.getElementById('withdrawBtn')?.addEventListener('click', () => {
+        const amount = prompt("Enter withdrawal amount (KES):\n(Multiples of 100, max 40,000)");
+        if (amount) handleWithdraw(parseFloat(amount));
+    });
+    document.getElementById('checkBalanceBtn')?.addEventListener('click', () => {
+        showToast(`Your balance is KES ${currentUser.balance.toLocaleString()}`);
+    });
+    document.getElementById('myAccountBtn')?.addEventListener('click', () => {
+        const details = document.getElementById('accountDetails');
+        details.innerHTML = `
+            <p><strong>Name:</strong> ${currentUser.fullName}</p>
+            <p><strong>Username:</strong> ${currentUser.username}</p>
+            <p><strong>Email:</strong> ${currentUser.email || "Not set"}</p>
+            <p><strong>Balance:</strong> KES ${currentUser.balance.toLocaleString()}</p>
+            <p><strong>Member Since:</strong> 2024</p>
+        `;
+        document.getElementById('accountInfoModal').classList.add('active');
+    });
+
+    // Back & Logout
+    document.getElementById('userBackBtn')?.addEventListener('click', () => showPage('loginPage'));
+    document.getElementById('userLogoutBtn')?.addEventListener('click', () => showPage('loginPage'));
+    document.getElementById('adminBackBtn')?.addEventListener('click', () => showPage('loginPage'));
+    document.getElementById('adminLogoutBtn')?.addEventListener('click', () => showPage('loginPage'));
+
+    // Admin Controls
+    document.getElementById('addUserBtn')?.addEventListener('click', async () => {
+        const name = prompt("Enter full name:");
+        const username = prompt("Enter username:");
+        const password = prompt("Enter password (min 4 characters):");
+        if (name && username && password && password.length >= 4) {
+            try {
+                await apiCall('/users', {
+                    method: 'POST',
+                    body: JSON.stringify({ fullName: name, username, password })
+                });
+                renderAdminDashboard();
+                showToast(`User ${name} added successfully!`);
+            } catch (error) {}
+        }
+    });
+
+    document.getElementById('addNewAtmBtn')?.addEventListener('click', async () => {
+        const name = prompt("Enter ATM name/location:");
+        const location = prompt("Enter location details:");
+        if (name && location) {
+            await apiCall('/atm-network', {
+                method: 'POST',
+                body: JSON.stringify({ name, location })
+            });
+            renderAtmNetwork();
+            showToast(`New ATM "${name}" added to network!`);
+        }
+    });
+
+    document.getElementById('refillCashBtn')?.addEventListener('click', async () => {
+        await apiCall('/cash-inventory/refill', { method: 'POST' });
+        renderAdminDashboard();
+        showToast("ATM Cash Refilled: KES 850,000");
+    });
+
+    document.getElementById('clearTransactionsBtn')?.addEventListener('click', async () => {
+        await apiCall('/transactions', { method: 'DELETE' });
+        renderAdminDashboard();
+        showToast("Transaction history cleared");
+    });
+
+    document.getElementById('refillPaper')?.addEventListener('click', () => {
+        showToast("Receipt paper refilled to 100%");
+    });
+
+    document.getElementById('runMaintenanceBtn')?.addEventListener('click', async () => {
+        await apiCall('/maintenance', { method: 'POST' });
+        showToast("System maintenance completed! All systems optimal.");
+    });
+
+    document.getElementById('resetATMData')?.addEventListener('click', async () => {
+        if (confirm("WARNING: Reset all user balances to default (KES 5,000)?")) {
+            await apiCall('/reset-balances', { method: 'POST' });
+            renderAdminDashboard();
+            if (currentUser && currentUser.role !== 'admin') updateBalanceUI();
+            showToast("All user balances reset to KES 5,000");
+        }
+    });
+
+    document.getElementById('modalCancel')?.addEventListener('click', () => {
+        document.getElementById('transactionModal').classList.remove('active');
+    });
+    document.getElementById('closeAccountModal')?.addEventListener('click', () => {
+        document.getElementById('accountInfoModal').classList.remove('active');
+    });
+
+    // Initialize Swiper
+    new Swiper('.userSwiper', { loop: true, autoplay: { delay: 2500 }, slidesPerView: 1 });
+</script>
+</body>
+</html>
