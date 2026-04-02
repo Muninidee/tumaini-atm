@@ -232,7 +232,6 @@
         }).join('');
     }
 
-    // Generic modal for admin inputs
     function showGenericModal(title, fields, callback) {
         const modal = document.getElementById('genericModal');
         const titleEl = document.getElementById('genericModalTitle');
@@ -409,8 +408,8 @@
     // Admin buttons using generic modal
     document.getElementById('addUserBtn')?.addEventListener('click', () => {
         showGenericModal('Add New User', [
-            { label: 'Full Name', name: 'fullName', type: 'text', placeholder: 'John Doe' },
-            { label: 'Username', name: 'username', type: 'text', placeholder: 'johndoe' },
+            { label: 'Full Name', name: 'fullName', type: 'text', placeholder: 'Full name' },
+            { label: 'Username', name: 'username', type: 'text', placeholder: 'Username' },
             { label: 'Password', name: 'password', type: 'password', placeholder: 'min 4 chars' }
         ], async (vals) => {
             if (vals.fullName && vals.username && vals.password && vals.password.length >= 4) {
@@ -422,8 +421,8 @@
     });
     document.getElementById('addNewAtmBtn')?.addEventListener('click', () => {
         showGenericModal('Add New ATM', [
-            { label: 'ATM Name', name: 'name', type: 'text', placeholder: 'Nairobi West' },
-            { label: 'Location', name: 'location', type: 'text', placeholder: 'Nairobi, Kenya' }
+            { label: 'ATM Name', name: 'name', type: 'text', placeholder: 'e.g., Nairobi West' },
+            { label: 'Location', name: 'location', type: 'text', placeholder: 'e.g., Nairobi, Kenya' }
         ], async (vals) => {
             if (vals.name && vals.location) {
                 await apiCall('/atm-network', { method: 'POST', body: JSON.stringify({ name: vals.name, location: vals.location }) });
@@ -433,12 +432,12 @@
         });
     });
     document.getElementById('refillCashBtn')?.addEventListener('click', () => {
-        showGenericModal('Refill ATM Cash (Local Machine)', [
+        showGenericModal('Refill Local ATM Cash', [
             { label: 'Amount to add (KES)', name: 'amount', type: 'number', placeholder: 'e.g., 500000' }
         ], async (vals) => {
             let amt = parseFloat(vals.amount);
             if (!isNaN(amt) && amt > 0) {
-                await apiCall('/cash-inventory/refill', { method: 'POST' }); // This resets to default, but we can also add custom logic
+                await apiCall('/cash-inventory/refill', { method: 'POST' });
                 renderAdminDashboard();
                 showToast("Cash refilled");
             } else showToast("Invalid amount", true);
